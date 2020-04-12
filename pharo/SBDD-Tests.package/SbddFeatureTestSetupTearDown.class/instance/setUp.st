@@ -1,4 +1,0 @@
-running
-setUp
-
-	setupVar := true.
