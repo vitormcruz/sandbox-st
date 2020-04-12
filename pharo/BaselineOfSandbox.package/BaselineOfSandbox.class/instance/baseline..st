@@ -9,7 +9,7 @@ baseline: spec
 			  baseline: 'LangExtensions' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop'; 
 													 		     loads: #(tests) ];
 														
-			  baseline: 'SBDD' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop'; 
+			  baseline: 'SBDD' with: [ spec repository: 'gitlab://vitormcruz/sbdd:develop'; 
 													 loads: #(tests) ];
 														
 			  baseline: 'ValidationNotification' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop'; 
