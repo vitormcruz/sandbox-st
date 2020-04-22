@@ -18,11 +18,9 @@ baseline: spec
 			  baseline: 'DomainValidationMagritte' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop'; 
 															             loads: #(tests) ];
 
-			  package: 'Sunset' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop'];
-			  package: 'Universe-tests' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop'].
+			  package: 'Guide-Tests' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop' ].
 		
 		spec group: 'default' with: #('core');
-			  group: 'core'    with: #('LangExtensions' 'SBDD' 'ValidationNotification' 'DomainValidationMagritte' 
-											  'Sunset' 'Universe-tests').
+			  group: 'core'    with: #('LangExtensions' 'SBDD' 'ValidationNotification' 'DomainValidationMagritte' 'Guide-Tests').
 	].
 
