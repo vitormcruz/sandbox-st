@@ -12,8 +12,8 @@ baseline: spec
 			  baseline: 'SBDD' with: [ spec repository: 'gitlab://vitormcruz/sbdd:develop'; 
 													 loads: #(tests) ];
 														
-			  baseline: 'ValidationNotification' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop'; 
-															             loads: #(tests) ];
+			  baseline: 'ValidationNotification' with: [ spec repository: 'gitlab://vitormcruz/st_validation_notification:master'; 
+															             loads: #(default) ];
 														
 			  baseline: 'DomainValidationMagritte' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop'; 
 															             loads: #(tests) ];
