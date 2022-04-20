@@ -1,0 +1,42 @@
+"
+I am a proxy object used to chain mesasges send in order to make code more readable using cascades instead of parenthesis. Be aware that I am not thread safe.
+
+Example:
+
+((#(1 2 3 4 5 6 7 8 9) select: [ :num | num even ]) 
+				   collect: [ :a | a / 2]).
+							
+						
+#(1 2 3 4 5 6 7 8 9) chain select: [ :num | num even ];
+				             collect: [ :a | a / 2].
+"
+Class {
+	#name : #ChainObject,
+	#superclass : #Object,
+	#instVars : [
+		'subject'
+	],
+	#category : 'LangExtensions-Core'
+}
+
+{ #category : #'reflective operations' }
+ChainObject >> doesNotUnderstand: aMessage [
+    subject := aMessage sendTo: subject.
+    ^ subject
+]
+
+{ #category : #accessing }
+ChainObject >> proxy: aSubject [
+	"Sets the initial chained object that will be proxied by this object"
+
+	"delegates proxy: message to the subject if it was already set, that way proxy: messages can be chained too"
+	subject ifNotNil: [ ^ subject proxy: aSubject ].
+	subject := aSubject.
+	
+]
+
+{ #category : #accessing }
+ChainObject >> subject [
+
+	^ subject.
+]
