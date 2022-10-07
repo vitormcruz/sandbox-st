@@ -13,13 +13,13 @@ BaselineOfDomainValidationMagritte >> baseline: spec [
 		spec blessing: #'baseline';
 		     repository: 'github://vitormcruz/sandbox-st';
 		
-		     baseline: 'LangExtensions' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop'; 
+		     baseline: 'LangExtensions' with: [ spec repository: 'github://vitormcruz/sandbox-st:develop'; 
 															     loads: #(core) ];
 														
-		     baseline: 'Tome' with: [ spec repository: 'gitlab://vitormcruz/tome:develop'; 
+		     baseline: 'Tome' with: [ spec repository: 'github://vitormcruz/tome:develop'; 
 													 loads: #(core) ];
 														
-		     baseline: 'ValidationNotification' with: [ spec repository: 'gitlab://vitormcruz/st_validation_notification'; 
+		     baseline: 'ValidationNotification' with: [ spec repository: 'github://vitormcruz/st_validation_notification'; 
 															     			 loads: #(core) ];
 														
 		     baseline: 'Mocketry' with: [ spec repository: 'github://dionisiydk/Mocketry:v4.0.6' ];
@@ -27,8 +27,8 @@ BaselineOfDomainValidationMagritte >> baseline: spec [
 		     baseline: 'Magritte' with: [ spec repository: 'github://magritte-metamodel/magritte:v3.8'; 
  													     loads: #(Core) ];
 												
-			  package: 'Magritte-Extensions-Core' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop' ];
-			  package: 'Magritte-Extensions-Tests' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop'];										
+			  package: 'Magritte-Extensions-Core' with: [ spec repository: 'github://vitormcruz/sandbox-st:develop' ];
+			  package: 'Magritte-Extensions-Tests' with: [ spec repository: 'github://vitormcruz/sandbox-st:develop'];										
 		
 			  package: 'DomainValidationMagritte-Core' with: [ spec requires: #('LangExtensions' 'Magritte' 'ValidationNotification') ];
 			  package: 'DomainValidationMagritte-Tests' with: [ spec requires: #('DomainValidationMagritte-Core' 'Tome' 'Mocketry') ];
