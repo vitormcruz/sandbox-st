@@ -1,7 +1,7 @@
 Class {
 	#name : #BaselineOfDomainValidationMagritte,
 	#superclass : #BaselineOf,
-	#category : 'BaselineOfDomainValidationMagritte'
+	#category : #BaselineOfDomainValidationMagritte
 }
 
 { #category : #baselines }
@@ -16,24 +16,22 @@ BaselineOfDomainValidationMagritte >> baseline: spec [
 		     baseline: 'LangExtensions' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop'; 
 															     loads: #(core) ];
 														
-		     baseline: 'SBDD' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop'; 
-															     loads: #(core) ];
+		     baseline: 'Tome' with: [ spec repository: 'gitlab://vitormcruz/tome:develop'; 
+													 loads: #(core) ];
 														
-		     baseline: 'ValidationNotification' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop'; 
+		     baseline: 'ValidationNotification' with: [ spec repository: 'gitlab://vitormcruz/st_validation_notification'; 
 															     			 loads: #(core) ];
-														
-		     project: 'ValidationNotificationTests' copyFrom: 'ValidationNotification' with: [ spec loads: #(tests) ];
 														
 		     baseline: 'Mocketry' with: [ spec repository: 'github://dionisiydk/Mocketry:v4.0.6' ];
 															
-		     baseline: 'Magritte' with: [ spec repository: 'github://magritte-metamodel/magritte:v3.6'; 
+		     baseline: 'Magritte' with: [ spec repository: 'github://magritte-metamodel/magritte:v3.8'; 
  													     loads: #(Core) ];
 												
 			  package: 'Magritte-Extensions-Core' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop' ];
 			  package: 'Magritte-Extensions-Tests' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop'];										
 		
 			  package: 'DomainValidationMagritte-Core' with: [ spec requires: #('LangExtensions' 'Magritte' 'ValidationNotification') ];
-			  package: 'DomainValidationMagritte-Tests' with: [ spec requires: #('DomainValidationMagritte-Core' 'SBDD' 'Mocketry' 'ValidationNotificationTests') ];
+			  package: 'DomainValidationMagritte-Tests' with: [ spec requires: #('DomainValidationMagritte-Core' 'Tome' 'Mocketry') ];
 		     package: 'DomainValidationMagritte-Features' with: [ spec requires: #('LangExtensions' 'DomainValidationMagritte-Core') ];
 		
  			  group: 'default' with: #('core' 'tests');

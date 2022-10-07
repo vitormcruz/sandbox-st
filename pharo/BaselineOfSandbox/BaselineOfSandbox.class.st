@@ -1,7 +1,7 @@
 Class {
 	#name : #BaselineOfSandbox,
 	#superclass : #BaselineOf,
-	#category : 'BaselineOfSandbox'
+	#category : #BaselineOfSandbox
 }
 
 { #category : #baselines }
@@ -11,23 +11,14 @@ BaselineOfSandbox >> baseline: spec [
         
 	spec for: #'common' do: [
 		spec blessing: #'baseline';
-			  repository: 'gitlab://vitormcruz/sandbox-st/';
-			  baseline: 'LangExtensions' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop'; 
+			  repository: 'github://vitormcruz/sandbox-st/';
+			  baseline: 'LangExtensions' with: [ spec repository: 'github://vitormcruz/sandbox-st:develop'; 
 													 		     loads: #(tests) ];
 														
-			  baseline: 'SBDD' with: [ spec repository: 'gitlab://vitormcruz/sbdd:develop'; 
-													 loads: #(tests) ];
-														
-			  baseline: 'ValidationNotification' with: [ spec repository: 'gitlab://vitormcruz/st_validation_notification:master'; 
-															             loads: #(default) ];
-														
-			  baseline: 'DomainValidationMagritte' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop'; 
-															             loads: #(tests) ];
-
-			  package: 'Guide-Tests' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop' ].
+			  baseline: 'DomainValidationMagritte' with: [ spec repository: 'github://vitormcruz/sandbox-st:develop'; 
+															             loads: #(tests) ].
 		
-		spec group: 'default' with: #('core');
-			  group: 'core'    with: #('LangExtensions' 'SBDD' 'ValidationNotification' 'DomainValidationMagritte' 'Guide-Tests').
+		spec group: 'default' with: #('LangExtensions' 'DomainValidationMagritte').
 	].
 
 

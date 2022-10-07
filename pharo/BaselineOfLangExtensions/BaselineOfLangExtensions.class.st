@@ -11,7 +11,7 @@ BaselineOfLangExtensions >> baseline: spec [
         
 	spec for: #'common' do: [
 		spec blessing: #'baseline';
-			  repository: 'github//vitormcruz/sandbox-st/pharo/';
+			  repository: 'github://vitormcruz/sandbox-st/pharo/';
 			
 	 	   	  baseline: 'Avatar' with: [ spec repository: 'github://vitormcruz/avatar:createBaseline'; loads: #(core) ];	
 		     package: 'ComplexCondition-Core' with: [ spec repository: 'http://www.squeaksource.com/ComplexCondition'; 
