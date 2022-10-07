@@ -11,32 +11,25 @@ Example:
 				             collect: [ :a | a / 2].
 "
 Class {
-	#name : #ChainObject,
+	#name : #ChainHandler,
 	#superclass : #Object,
 	#instVars : [
 		'subject'
 	],
-	#category : 'LangExtensions-Core'
+	#category : #'LangExtensions-Core'
 }
 
-{ #category : #'reflective operations' }
-ChainObject >> doesNotUnderstand: aMessage [
+{ #category : #handling }
+ChainHandler >> handleMessage: aMessage toTarget: anObject [
+
     subject := aMessage sendTo: subject.
     ^ subject
 ]
 
 { #category : #accessing }
-ChainObject >> proxy: aSubject [
+ChainHandler >> proxy: aSubject [
 	"Sets the initial chained object that will be proxied by this object"
 
-	"delegates proxy: message to the subject if it was already set, that way proxy: messages can be chained too"
-	subject ifNotNil: [ ^ subject proxy: aSubject ].
 	subject := aSubject.
 	
-]
-
-{ #category : #accessing }
-ChainObject >> subject [
-
-	^ subject.
 ]

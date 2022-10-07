@@ -4,5 +4,6 @@ Extension { #name : #Object }
 Object >> chain [
 	"Starts a chained operation"
 	
-	^ ChainObject new proxy: self.
+	^ AvDelegationProxy target: Object new 
+							  handler: (ChainHandler new proxy: self).
 ]
