@@ -11,7 +11,7 @@ BaselineOfDomainValidationMagritte >> baseline: spec [
         
 	spec for: #'common' do: [
 		spec blessing: #'baseline';
-		     repository: 'gitlab://vitormcruz/sandbox-st';
+		     repository: 'github://vitormcruz/sandbox-st';
 		
 		     baseline: 'LangExtensions' with: [ spec repository: 'gitlab://vitormcruz/sandbox-st:develop'; 
 															     loads: #(core) ];
