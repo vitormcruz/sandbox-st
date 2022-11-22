@@ -7,5 +7,5 @@ Class {
 { #category : #running }
 AcTestSpecApp >> run [
 
-	(self new: FurnacePresenter) open
+	(self new: AcTestPresenter) open
 ]

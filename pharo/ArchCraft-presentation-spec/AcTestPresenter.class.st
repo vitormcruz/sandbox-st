@@ -1,17 +1,17 @@
 Class {
-	#name : #FurnacePresenter,
+	#name : #AcTestPresenter,
 	#superclass : #SpPresenter,
 	#category : #'ArchCraft-presentation-spec'
 }
 
 { #category : #layout }
-FurnacePresenter class >> defaultLayout [
+AcTestPresenter class >> defaultLayout [
 	
 	^ SpBoxLayout newTopToBottom. 
 ]
 
 { #category : #initialization }
-FurnacePresenter >> initializePresenters [
+AcTestPresenter >> initializePresenters [
 
 	self layout add: 'Project Name:' expand: false;
 					add: (self newTextInput).
