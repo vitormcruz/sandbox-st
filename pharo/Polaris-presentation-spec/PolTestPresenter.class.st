@@ -1,17 +1,17 @@
 Class {
-	#name : #AcTestPresenter,
+	#name : #PolTestPresenter,
 	#superclass : #SpPresenter,
-	#category : #'ArchCraft-presentation-spec'
+	#category : #'Polaris-presentation-spec'
 }
 
 { #category : #layout }
-AcTestPresenter class >> defaultLayout [
+PolTestPresenter class >> defaultLayout [
 	
 	^ SpBoxLayout newTopToBottom. 
 ]
 
 { #category : #initialization }
-AcTestPresenter >> initializePresenters [
+PolTestPresenter >> initializePresenters [
 
 	self layout add: 'Project Name:' expand: false;
 					add: (self newTextInput).
