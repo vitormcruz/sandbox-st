@@ -5,9 +5,13 @@ Class {
 }
 
 { #category : #'project creation' }
-Polaris class >> newProjectNamed: aString [ 
+Polaris class >> newProjectNamed: aString [
 
-	BaselineOf << ('BaselineOf', aString) asSymbol 
-		slots: {};
-		package: 'BaselineOf', aString
+	| baselineName |
+	
+	baselineName := 'BaselineOf' , aString.
+
+	(BaselineOf << baselineName asSymbol)
+		slots: {  };
+		package: baselineName; install.
 ]

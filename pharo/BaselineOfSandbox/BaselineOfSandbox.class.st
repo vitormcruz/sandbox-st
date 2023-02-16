@@ -16,9 +16,12 @@ BaselineOfSandbox >> baseline: spec [
 													 		     loads: #(tests) ];
 														
 			  baseline: 'DomainValidationMagritte' with: [ spec repository: 'github://vitormcruz/sandbox-st:develop'; 
-															             loads: #(tests) ].
-		
-		spec group: 'default' with: #('LangExtensions' 'DomainValidationMagritte').
+															             loads: #(tests) ];
+			  
+			  package: 'Polaris-Core';
+			  package: 'Polaris-Tests';
+		     package: 'Polaris-presentation-spec';
+		     group: 'default' with: #('LangExtensions' 'DomainValidationMagritte').
 	].
 
 
