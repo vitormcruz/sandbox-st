@@ -4,19 +4,10 @@ Class {
 	#category : #'Polaris-Core'
 }
 
-{ #category : #'project creation' }
-Polaris class >> newProjectNamed: projectNameString [
+{ #category : #'baseline creation' }
+Polaris class >> baselineSourceFor: projectNameString [
 
-	| baselineName baselineClass |
-	
-	baselineName := 'BaselineOf' , projectNameString.
-
-	baselineClass := (BaselineOf << baselineName asSymbol)
-							slots: {  };
-							package: baselineName; install.
-							
-							
-	baselineClass compile: ('baseline: spec
+	^ 'baseline: spec
 	<baseline>
         
 	spec for: #''common'' do: [
@@ -49,8 +40,32 @@ Polaris class >> newProjectNamed: projectNameString [
 		group: ''core'' with: #(''{1}-Config'' ''ValidationNotification'');
 		group: ''test'' with: #(core ''{1}-Tests'' ''{1}-AcceptanceCriteria'');
 		group: ''dev'' with: #(test ''Seaside-Dev'')
-	].' format: {projectNameString}).
-		
+	].' format: { projectNameString }
+]
+
+{ #category : #'baseline creation' }
+Polaris class >> createBaselineClassUsing: baselineName ForProject: projectNameString [
+
+	| baselineClass |
+	
+	baselineClass := (BaselineOf << baselineName asSymbol)
+		                 slots: {  };
+		                 package: baselineName;
+		                 install.
+
+
+	baselineClass compile: (self baselineSourceFor: projectNameString).
+
 	(baselineClass compiledMethodAt: #baseline:) protocol: 'baseline'
-						
+]
+
+{ #category : #'project creation' }
+Polaris class >> newProjectNamed: projectNameString [
+
+	| baselineName |
+	
+	baselineName := 'BaselineOf' , projectNameString.
+	
+	self createBaselineClassUsing: baselineName
+		  ForProject: projectNameString
 ]

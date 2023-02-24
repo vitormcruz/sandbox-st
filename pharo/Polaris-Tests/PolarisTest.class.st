@@ -2,10 +2,20 @@ Class {
 	#name : #PolarisTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'#packagesCreatedToClean => InitializedSlot default: an OrderedCollection(\'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\' \'BaselineOfPolarisTestProject\')'
+		'packagesCreatedToClean'
 	],
 	#category : #'Polaris-Tests'
 }
+
+{ #category : #'test util' }
+PolarisTest >> createProjectForTestNamed: projectNameString [
+
+	| expectedBaselineName |
+	
+	Polaris newProjectNamed: projectNameString.
+	expectedBaselineName := 'BaselineOf' , projectNameString.
+	self expectedPackageCreated: expectedBaselineName.
+]
 
 { #category : #cleanup }
 PolarisTest >> expectedPackageCreated: aPackageName [
@@ -18,40 +28,34 @@ PolarisTest >> expectedPackageCreated: aPackageName [
 { #category : #initialization }
 PolarisTest >> initialize [
 	
-	self class initializeSlots: self.
 	super initialize.
+	packagesCreatedToClean := OrderedCollection new.
 ]
 
 { #category : #running }
 PolarisTest >> tearDown [ 
 
-	packagesCreatedToClean do: [ :packageName |(RPackage organizer packageNamed: packageName ifAbsent: [ ^ self ]) removeFromSystem ]
+	super tearDown.
+	packagesCreatedToClean do: [ :packageName | (RPackage organizer packageNamed: packageName ifAbsent: [ ^ self ]) removeFromSystem ].
+	packagesCreatedToClean removeAll.
 ]
 
 { #category : #tests }
 PolarisTest >> test_new_empty_project_baseline_method_should_be_created [
 
-	| expectedBaselineName |
-	
-	Polaris newProjectNamed: 'PolarisTestProject'.
-	expectedBaselineName := 'BaselineOf', 'PolarisTestProject'.
-	self expectedPackageCreated: expectedBaselineName.
-	
-	self assert: (expectedBaselineName asClass selectors includes: #baseline:).
-	self assert: ((expectedBaselineName asClass compiledMethodAt: #baseline:) protocol) 
-		  equals: 'baseline'  	
-	
+	self createProjectForTestNamed: 'PolarisTestProject'.
+	self assert: ('BaselineOfPolarisTestProject' asClass selectors includes: #baseline:).
+	self assert: ('BaselineOfPolarisTestProject' asClass compiledMethodAt: #baseline:) protocol
+        equals: 'baseline'
 ]
 
 { #category : #tests }
 PolarisTest >> test_new_empty_project_baseline_method_should_have_default_value [
 
-	| expectedBaselineName baselineMethodSource |
+	| baselineMethodSource |
 	
-	Polaris newProjectNamed: 'PolarisTestProject'.
-	expectedBaselineName := 'BaselineOf', 'PolarisTestProject'.
-	self expectedPackageCreated: expectedBaselineName.
-	baselineMethodSource := (expectedBaselineName asClass compiledMethodAt: #baseline:) sourceCode.
+	self createProjectForTestNamed: 'PolarisTestProject'.
+	baselineMethodSource := ('BaselineOfPolarisTestProject' asClass compiledMethodAt: #baseline:) sourceCode.
 	
 	self assert: (baselineMethodSource copyReplaceAll: ' ' with: '')
 		  equals: (('baseline: spec
@@ -76,36 +80,33 @@ PolarisTest >> test_new_empty_project_baseline_method_should_have_default_value 
   	   baseline: ''MaterialDesignLite''	with: [ spec repository: ''github://DuneSt/MaterialDesignLite:v2.4.1/src''; loads: #(core) ];	
 		baseline: ''ValidationNotification'' with: [ spec repository: ''github://vitormcruz/st_validation_notification:master/pharo''; loads: #(core) ];
 
-		package: ''{1}-Core'';
-		package: ''{1}-Adapter'' with: [ spec requires: #(''Seaside-Core'' ''MaterialDesignLite'') ];
-		package: ''{1}-Config'' with: [ spec requires: #(''{1}-Core'' ''{1}-Adapter'' ''Grease'') ];
+		package: ''PolarisTestProject-Core'';
+		package: ''PolarisTestProject-Adapter'' with: [ spec requires: #(''Seaside-Core'' ''MaterialDesignLite'') ];
+		package: ''PolarisTestProject-Config'' with: [ spec requires: #(''PolarisTestProject-Core'' ''PolarisTestProject-Adapter'' ''Grease'') ];
 		
-		package: ''{1}-Tests'' with: [ spec requires: #(''{1}-Core'' ''Buoy-Tests'') ];
-		package: ''{1}-AcceptanceCriteria'' with: [ spec requires: #(''{1}-Core'' ''Buoy-Tests'' ''Tome'' ''{1}-Tests'') ];
+		package: ''PolarisTestProject-Tests'' with: [ spec requires: #(''PolarisTestProject-Core'' ''Buoy-Tests'') ];
+		package: ''PolarisTestProject-AcceptanceCriteria'' with: [ spec requires: #(''PolarisTestProject-Core'' ''Buoy-Tests'' ''Tome'' ''PolarisTestProject-Tests'') ];
 		
 		group: ''default'' with: #(''dev'');
-		group: ''core'' with: #(''{1}-Config'' ''ValidationNotification'');
-		group: ''test'' with: #(core ''{1}-Tests'' ''{1}-AcceptanceCriteria'');
+		group: ''core'' with: #(''PolarisTestProject-Config'' ''ValidationNotification'');
+		group: ''test'' with: #(core ''PolarisTestProject-Tests'' ''PolarisTestProject-AcceptanceCriteria'');
 		group: ''dev'' with: #(test ''Seaside-Dev'')
-	].' format: { 'PolarisTestProject' }) copyReplaceAll: ' ' with: ''). 
+	].') copyReplaceAll: ' ' with: ''). 
 	
 ]
 
 { #category : #tests }
 PolarisTest >> test_new_empty_project_baseline_should_be_created [
 
-	| expectedBaselineName |
+
+	self createProjectForTestNamed: 'PolarisTestProject'.
 	
-	Polaris newProjectNamed: 'PolarisTestProject'.
-	expectedBaselineName := 'BaselineOf', 'PolarisTestProject'.
-	self expectedPackageCreated: expectedBaselineName.
-	
-	self assert: (RPackage organizer includesPackageNamed: expectedBaselineName) 
-		  description: 'Should create a package named: ', expectedBaselineName.
+	self assert: (RPackage organizer includesPackageNamed: 'BaselineOfPolarisTestProject') 
+		  description: 'Should create a package named: ', 'BaselineOfPolarisTestProject'.
 		
-	self shouldnt: [ expectedBaselineName asClass ] raise: NotFound.
+	self shouldnt: [ 'BaselineOfPolarisTestProject' asClass ] raise: NotFound.
 	
-	self assert: ((RPackage organizer packageNamed: expectedBaselineName) definedClasses includes: #BaselineOfPolarisTestProject asClass) 
+	self assert: ((RPackage organizer packageNamed: 'BaselineOfPolarisTestProject') definedClasses includes: #BaselineOfPolarisTestProject asClass) 
 		  description: 'Baseline class should be created inside the correct package'.	
 	
 	
