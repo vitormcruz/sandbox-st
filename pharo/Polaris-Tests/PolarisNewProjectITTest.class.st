@@ -1,62 +1,16 @@
 Class {
-	#name : #PolarisTest,
+	#name : #PolarisNewProjectITTest,
 	#superclass : #TestCase,
+	#traits : 'TPolNewProjectUtils',
+	#classTraits : 'TPolNewProjectUtils classTrait',
 	#instVars : [
 		'packagesCreatedToClean'
 	],
 	#category : #'Polaris-Tests'
 }
 
-{ #category : #'test util' }
-PolarisTest >> createProjectForTestNamed: projectNameString [
-
-	| expectedBaselineName |
-	
-	Polaris newProjectNamed: projectNameString.
-	expectedBaselineName := 'BaselineOf' , projectNameString.
-	self expectedPackageCreated: expectedBaselineName.
-]
-
-{ #category : #cleanup }
-PolarisTest >> expectedPackageCreated: aPackageName [
-
-	packagesCreatedToClean add: aPackageName
-
-
-]
-
-{ #category : #initialization }
-PolarisTest >> initialize [
-	
-	super initialize.
-	packagesCreatedToClean := OrderedCollection new.
-]
-
-{ #category : #running }
-PolarisTest >> tearDown [ 
-
-	super tearDown.
-	packagesCreatedToClean do: [ :packageName | (RPackage organizer packageNamed: packageName ifAbsent: [ ^ self ]) removeFromSystem ].
-	packagesCreatedToClean removeAll.
-]
-
 { #category : #tests }
-PolarisTest >> test_new_empty_project_repository_should_be_created [
-
-	self skip.
-
-	Polaris newProjectNamed: 'PolarisTestProject'.
-	self expectedPackageCreated: 'BaselineOfPolarisTestProject'.
-	self assert: ((IceRepository repositories collect: #name) includes: 'PolarisTestProject') description: 'A repository should be created, but wasn''t'
-	
-	
-	
-	
-	
-]
-
-{ #category : #tests }
-PolarisTest >> test_new_project_baseline_method_should_be_created [
+PolarisNewProjectITTest >> test_new_project_baseline_method_should_be_created [
 
 	self createProjectForTestNamed: 'PolarisTestProject'.
 	self assert: ('BaselineOfPolarisTestProject' asClass selectors includes: #baseline:).
@@ -65,7 +19,7 @@ PolarisTest >> test_new_project_baseline_method_should_be_created [
 ]
 
 { #category : #tests }
-PolarisTest >> test_new_project_baseline_method_should_have_default_value [
+PolarisNewProjectITTest >> test_new_project_baseline_method_should_have_default_value [
 
 	| baselineMethodSource |
 	
@@ -111,7 +65,7 @@ PolarisTest >> test_new_project_baseline_method_should_have_default_value [
 ]
 
 { #category : #tests }
-PolarisTest >> test_new_project_baseline_should_be_created [
+PolarisNewProjectITTest >> test_new_project_baseline_should_be_created [
 
 
 	self createProjectForTestNamed: 'PolarisTestProject'.
@@ -123,6 +77,21 @@ PolarisTest >> test_new_project_baseline_should_be_created [
 	
 	self assert: ((RPackage organizer packageNamed: 'BaselineOfPolarisTestProject') definedClasses includes: #BaselineOfPolarisTestProject asClass) 
 		  description: 'Baseline class should be created inside the correct package'.	
+	
+	
+]
+
+{ #category : #tests }
+PolarisNewProjectITTest >> test_new_project_repository_should_be_created [
+
+	self skip.
+
+	Polaris newProjectNamed: 'PolarisTestProject'.
+	self expectedPackageCreated: 'BaselineOfPolarisTestProject'.
+	self assert: ((IceRepository repositories collect: #name) includes: 'PolarisTestProject') description: 'A repository should be created, but wasn''t'
+	
+	
+	
 	
 	
 ]
