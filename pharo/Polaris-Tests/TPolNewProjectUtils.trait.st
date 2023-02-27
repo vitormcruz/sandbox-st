@@ -9,14 +9,12 @@ Trait {
 { #category : #'test util' }
 TPolNewProjectUtils >> createProjectForTestNamed: projectNameString [
 
-	| expectedBaselineName |
-	
 	Polaris newProjectNamed: projectNameString.
-	expectedBaselineName := 'BaselineOf' , projectNameString.
-	self expectedPackageCreated: expectedBaselineName.
+	self expectedPackageCreated: 'BaselineOf' , projectNameString.
+	self expectedPackageCreated: projectNameString , '-Config'.
 ]
 
-{ #category : #cleanup }
+{ #category : #'test util' }
 TPolNewProjectUtils >> expectedPackageCreated: aPackageName [
 
 	packagesCreatedToClean add: aPackageName

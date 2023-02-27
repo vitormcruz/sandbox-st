@@ -1,5 +1,5 @@
 Class {
-	#name : #PolarisNewProjectTest,
+	#name : #PolPolarisNewProjectITTest,
 	#superclass : #TestCase,
 	#traits : 'TPolNewProjectUtils',
 	#classTraits : 'TPolNewProjectUtils classTrait',
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #tests }
-PolarisNewProjectTest >> test_new_project_baseline_should_load_correctly [
+PolPolarisNewProjectITTest >> test_new_project_baseline_should_load_correctly [
 
 	self skip.
 

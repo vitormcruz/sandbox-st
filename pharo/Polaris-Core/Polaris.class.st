@@ -60,6 +60,21 @@ Polaris class >> createBaselineClassUsing: baselineName ForProject: projectNameS
 ]
 
 { #category : #'project creation' }
+Polaris class >> createMainClassForProject: projectName [
+
+	| appClass appClassPackage |
+
+	appClassPackage	 := projectName, '-Config'.
+		
+	appClass := (CommandLineHandler << (projectName, 'Main') asSymbol)
+		                 slots: {  };
+		                 package: appClassPackage;
+		                 install.
+
+
+]
+
+{ #category : #'project creation' }
 Polaris class >> newProjectNamed: projectNameString [
 
 	| baselineName |
@@ -67,5 +82,7 @@ Polaris class >> newProjectNamed: projectNameString [
 	baselineName := 'BaselineOf' , projectNameString.
 	
 	self createBaselineClassUsing: baselineName
-		  ForProject: projectNameString
+		  ForProject: projectNameString.
+		
+	self createMainClassForProject: projectNameString.
 ]

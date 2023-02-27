@@ -1,5 +1,5 @@
 Class {
-	#name : #PolarisNewProjectITTest,
+	#name : #PolPolarisNewProjectTest,
 	#superclass : #TestCase,
 	#traits : 'TPolNewProjectUtils',
 	#classTraits : 'TPolNewProjectUtils classTrait',
@@ -10,7 +10,23 @@ Class {
 }
 
 { #category : #tests }
-PolarisNewProjectITTest >> test_new_project_baseline_method_should_be_created [
+PolPolarisNewProjectTest >> test_new_project_app_class_should_be_created [
+
+
+	self createProjectForTestNamed: 'PolarisTestProject'.
+	
+	self shouldnt: [ 'PolarisTestProjectMain' asClass ] raise: NotFound.
+	
+	self assert: 'PolarisTestProjectMain' asClass superclass equals:  CommandLineHandler.
+	
+	self assert: ((RPackage organizer packageNamed: 'PolarisTestProject-Config') definedClasses includes: #PolarisTestProjectMain asClass) 
+		  description: 'App class should be created inside the correct package'.
+	
+	
+]
+
+{ #category : #tests }
+PolPolarisNewProjectTest >> test_new_project_baseline_method_should_be_created [
 
 	self createProjectForTestNamed: 'PolarisTestProject'.
 	self assert: ('BaselineOfPolarisTestProject' asClass selectors includes: #baseline:).
@@ -19,7 +35,7 @@ PolarisNewProjectITTest >> test_new_project_baseline_method_should_be_created [
 ]
 
 { #category : #tests }
-PolarisNewProjectITTest >> test_new_project_baseline_method_should_have_default_value [
+PolPolarisNewProjectTest >> test_new_project_baseline_method_should_have_default_value [
 
 	| baselineMethodSource |
 	
@@ -65,7 +81,7 @@ PolarisNewProjectITTest >> test_new_project_baseline_method_should_have_default_
 ]
 
 { #category : #tests }
-PolarisNewProjectITTest >> test_new_project_baseline_should_be_created [
+PolPolarisNewProjectTest >> test_new_project_baseline_should_be_created [
 
 
 	self createProjectForTestNamed: 'PolarisTestProject'.
@@ -82,7 +98,7 @@ PolarisNewProjectITTest >> test_new_project_baseline_should_be_created [
 ]
 
 { #category : #tests }
-PolarisNewProjectITTest >> test_new_project_repository_should_be_created [
+PolPolarisNewProjectTest >> test_new_project_repository_should_be_created [
 
 	self skip.
 
