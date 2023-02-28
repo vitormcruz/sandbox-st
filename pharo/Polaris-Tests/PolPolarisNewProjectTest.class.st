@@ -26,6 +26,29 @@ PolPolarisNewProjectTest >> test_new_project_app_class_should_be_created [
 ]
 
 { #category : #tests }
+PolPolarisNewProjectTest >> test_new_project_app_class_should_have_activate_method [
+
+	| createdClass |
+	
+	self createProjectForTestNamed: 'PolarisTestProject'.
+	createdClass := 'PolarisTestProjectMain' asClass.
+	
+	self assert: (createdClass selectors includes: #activate).
+
+	self assert: ((createdClass compiledMethodAt: #activate) sourceCode copyReplaceAll: ' ' with: '')
+		  equals: (('activate
+	| adaptor |
+	
+	adaptor := ZnZincServerAdaptor new. "Self registered..."
+	
+	adaptor port: (Smalltalk os environment at: #PORT ifAbsent: 8080) asInteger.
+	WAAdmin defaultServerManager startAll.
+	WAAdmin defaultDispatcher defaultName: ''PolarisTestProject''.
+
+	Smalltalk snapshot: false andQuit: false') copyReplaceAll: ' ' with: '' ).
+]
+
+{ #category : #tests }
 PolPolarisNewProjectTest >> test_new_project_baseline_method_should_be_created [
 
 	self createProjectForTestNamed: 'PolarisTestProject'.

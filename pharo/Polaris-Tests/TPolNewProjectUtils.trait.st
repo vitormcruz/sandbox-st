@@ -9,9 +9,9 @@ Trait {
 { #category : #'test util' }
 TPolNewProjectUtils >> createProjectForTestNamed: projectNameString [
 
-	Polaris newProjectNamed: projectNameString.
 	self expectedPackageCreated: 'BaselineOf' , projectNameString.
 	self expectedPackageCreated: projectNameString , '-Config'.
+	Polaris newProjectNamed: projectNameString.
 ]
 
 { #category : #'test util' }

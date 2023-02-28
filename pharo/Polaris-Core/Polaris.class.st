@@ -4,6 +4,22 @@ Class {
 	#category : #'Polaris-Core'
 }
 
+{ #category : #'as yet unclassified' }
+Polaris class >> activateMethodSourceForProject: projectName [
+
+
+	^ 'activate
+	| adaptor |
+	
+	adaptor := ZnZincServerAdaptor new. "Self registered..."
+	
+	adaptor port: (Smalltalk os environment at: #PORT ifAbsent: 8080) asInteger.
+	WAAdmin defaultServerManager startAll.
+	WAAdmin defaultDispatcher defaultName: ''', projectName , '''.
+
+	Smalltalk snapshot: false andQuit: false'
+]
+
 { #category : #'baseline creation' }
 Polaris class >> baselineSourceFor: projectNameString [
 
@@ -53,7 +69,6 @@ Polaris class >> createBaselineClassUsing: baselineName ForProject: projectNameS
 		                 package: baselineName;
 		                 install.
 
-
 	baselineClass compile: (self baselineSourceFor: projectNameString).
 
 	(baselineClass compiledMethodAt: #baseline:) protocol: 'baseline'
@@ -63,15 +78,17 @@ Polaris class >> createBaselineClassUsing: baselineName ForProject: projectNameS
 Polaris class >> createMainClassForProject: projectName [
 
 	| appClass appClassPackage |
+	appClassPackage := projectName , '-Config'.
 
-	appClassPackage	 := projectName, '-Config'.
-		
-	appClass := (CommandLineHandler << (projectName, 'Main') asSymbol)
-		                 slots: {  };
-		                 package: appClassPackage;
-		                 install.
+	appClass := (CommandLineHandler << (projectName , 'Main') asSymbol)
+		            slots: {  };
+		            package: appClassPackage;
+		            install.
 
 
+	appClass compile: (self activateMethodSourceForProject: projectName).
+
+	(appClass compiledMethodAt: #activate) protocol: 'activate'
 ]
 
 { #category : #'project creation' }
