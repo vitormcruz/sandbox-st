@@ -4,8 +4,14 @@ Class {
 	#category : #'Polaris-Core'
 }
 
+{ #category : #'project creation' }
+Polaris class >> newProjectNamed: projectNameString [
+
+	super new newProjectNamed: projectNameString.
+]
+
 { #category : #'as yet unclassified' }
-Polaris class >> activateMethodSourceForProject: projectName [
+Polaris >> activateMethodSourceForProject: projectName [
 
 
 	^ 'activate
@@ -21,7 +27,7 @@ Polaris class >> activateMethodSourceForProject: projectName [
 ]
 
 { #category : #'baseline creation' }
-Polaris class >> baselineSourceFor: projectNameString [
+Polaris >> baselineSourceFor: projectNameString [
 
 	^ 'baseline: spec
 	<baseline>
@@ -60,7 +66,7 @@ Polaris class >> baselineSourceFor: projectNameString [
 ]
 
 { #category : #'baseline creation' }
-Polaris class >> createBaselineClassUsing: baselineName ForProject: projectNameString [
+Polaris >> createBaselineClassUsing: baselineName ForProject: projectNameString [
 
 	| baselineClass |
 	
@@ -75,7 +81,7 @@ Polaris class >> createBaselineClassUsing: baselineName ForProject: projectNameS
 ]
 
 { #category : #'project creation' }
-Polaris class >> createMainClassForProject: projectName [
+Polaris >> createMainClassForProject: projectName [
 
 	| appClass appClassPackage |
 	appClassPackage := projectName , '-Config'.
@@ -91,8 +97,8 @@ Polaris class >> createMainClassForProject: projectName [
 	(appClass compiledMethodAt: #activate) protocol: 'activate'
 ]
 
-{ #category : #'project creation' }
-Polaris class >> newProjectNamed: projectNameString [
+{ #category : #'instance creation' }
+Polaris >> newProjectNamed: projectNameString [
 
 	| baselineName |
 	
