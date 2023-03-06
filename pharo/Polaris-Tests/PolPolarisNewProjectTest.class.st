@@ -58,49 +58,30 @@ PolPolarisNewProjectTest >> test_new_project_baseline_method_should_be_created [
 ]
 
 { #category : #tests }
-PolPolarisNewProjectTest >> test_new_project_baseline_method_should_have_default_value [
+PolPolarisNewProjectTest >> test_new_project_baseline_method_should_have_default_configuration [
 
-	| baselineMethodSource |
+	| baselineSpecBuilt |
 	
 	self createProjectForTestNamed: 'PolarisTestProject'.
-	baselineMethodSource := ('BaselineOfPolarisTestProject' asClass compiledMethodAt: #baseline:) sourceCode.
+	baselineSpecBuilt := (MetacelloBaselineConstructor on: 'BaselineOfPolarisTestProject' asClass new) root.
 	
-	self assert: (baselineMethodSource copyReplaceAll: ' ' with: '')
-		  equals: (('baseline: spec
-	<baseline>
-        
-	spec for: #''common'' do: [
-		spec blessing: #''baseline'';     
+	baselineSpecBuilt	packageNamed: 'Buoy' ifAbsent: [ self fail: 'Buoy should be found' ];
+		packageNamed: 'Buoy-Tests'	ifAbsent: [ self fail: 'Buoy-Tests should be found' ];
+		packageNamed: 'Tome'	ifAbsent: [ self fail: 'Tome should be found' ];
+		packageNamed: 'Grease' ifAbsent: [ self fail: 'Grease should be found' ];
+		packageNamed: 'MaterialDesignLite' ifAbsent: [ self fail: 'MaterialDesignLite should be found' ];
+		packageNamed: 'ValidationNotification' ifAbsent: [ self fail: 'ValidationNotification should be found' ];
+		packageNamed: 'PolarisTestProject-Core' ifAbsent: [ self fail: 'PolarisTestProject-Core should be found' ];
+		packageNamed: 'PolarisTestProject-Adapter' ifAbsent: [ self fail: 'PolarisTestProject-Adapter should be found' ];
+		packageNamed: 'PolarisTestProject-Config' ifAbsent: [ self fail: 'PolarisTestProject-Config should be found' ];
+		packageNamed: 'PolarisTestProject-Tests' ifAbsent: [ self fail: 'PolarisTestProject-Tests should be found' ];
+		packageNamed: 'PolarisTestProject-AcceptanceCriteria' ifAbsent: [ self fail: 'PolarisTestProject-AcceptanceCriteria should be found' ].
 		
- 	   baseline: ''Buoy'' with: [ spec repository: ''github://ba-st/Buoy:v6.1.0/source'' ];
-		project: ''Buoy-Tests'' copyFrom: ''Buoy'' with: [ spec loads: #(''Dependent-SUnit-Extensions'') ];
-	   baseline: ''LangExtensions'' with: [ spec repository: ''gitlab://vitormcruz/sandbox-st:develop''; 
-								 		 loads: #(core) ];
-		
- 	   baseline: ''Tome'' with: [ spec repository: ''github://vitormcruz/tome:develop/pharo''; loads: #(core) ];
- 	   baseline: ''Grease'' with: [ spec repository: ''github://SeasideSt/Grease:v1.9.0/repository''; loads: #(default) ];
-	
-		baseline:''Seaside3'' with: [ spec repository: ''github://SeasideSt/Seaside:v3.4.7/repository'' ];
-		project:''Seaside-Core'' copyFrom: ''Seaside3'' with: [ spec loads: #(''Core'' ''JSON'' ''Email'' ''Javascript'' ''JQuery'' ''JQueryUI'' ''Zinc'' ) ];
-		project:''Seaside-Dev'' copyFrom: ''Seaside3'' with: [ spec loads: #(default) ];
+	self assert: (baselineSpecBuilt packageNamed: 'default') includes asSet equals: #('dev') asSet.
+	self assert: (baselineSpecBuilt packageNamed: 'core') includes asSet equals: #('PolarisTestProject-Config' 'ValidationNotification') asSet.
+	self assert: (baselineSpecBuilt packageNamed: 'test') includes asSet equals: #('core' 'PolarisTestProject-Tests' 'PolarisTestProject-AcceptanceCriteria') asSet.
+	self assert: (baselineSpecBuilt packageNamed: 'dev') includes asSet equals: #('test' 'Seaside-Dev') asSet.		
 
-		"MaterialDesignLite must be declared after Seaside3 so that the correct version of Grease (1.7.x) is taken, otherwise, version 1.5.0 is taken"
-  	   baseline: ''MaterialDesignLite''	with: [ spec repository: ''github://DuneSt/MaterialDesignLite:v2.4.1/src''; loads: #(core) ];	
-		baseline: ''ValidationNotification'' with: [ spec repository: ''github://vitormcruz/st_validation_notification:master/pharo''; loads: #(core) ];
-
-		package: ''PolarisTestProject-Core'';
-		package: ''PolarisTestProject-Adapter'' with: [ spec requires: #(''Seaside-Core'' ''MaterialDesignLite'') ];
-		package: ''PolarisTestProject-Config'' with: [ spec requires: #(''PolarisTestProject-Core'' ''PolarisTestProject-Adapter'' ''Grease'') ];
-		
-		package: ''PolarisTestProject-Tests'' with: [ spec requires: #(''PolarisTestProject-Core'' ''Buoy-Tests'') ];
-		package: ''PolarisTestProject-AcceptanceCriteria'' with: [ spec requires: #(''PolarisTestProject-Core'' ''Buoy-Tests'' ''Tome'' ''PolarisTestProject-Tests'') ];
-		
-		group: ''default'' with: #(''dev'');
-		group: ''core'' with: #(''PolarisTestProject-Config'' ''ValidationNotification'');
-		group: ''test'' with: #(core ''PolarisTestProject-Tests'' ''PolarisTestProject-AcceptanceCriteria'');
-		group: ''dev'' with: #(test ''Seaside-Dev'')
-	].') copyReplaceAll: ' ' with: ''). 
-	
 ]
 
 { #category : #tests }
