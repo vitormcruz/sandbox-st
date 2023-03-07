@@ -66,7 +66,7 @@ Polaris >> baselineSourceFor: projectNameString [
 ]
 
 { #category : #'baseline creation' }
-Polaris >> createBaselineClassUsing: baselineName ForProject: projectNameString [
+Polaris >> createBaselineClassUsing: baselineName forProject: projectNameString [
 
 	| baselineClass |
 	
@@ -78,6 +78,39 @@ Polaris >> createBaselineClassUsing: baselineName ForProject: projectNameString 
 	baselineClass compile: (self baselineSourceFor: projectNameString).
 
 	(baselineClass compiledMethodAt: #baseline:) protocol: 'baseline'
+]
+
+{ #category : #'project creation' }
+Polaris >> createBasicSeasideApplicationForProject: aProjectName [ 
+
+	 ^ (Object << (aProjectName, 'WebPage') asSymbol)
+		                 slots: {  };
+		                 package: aProjectName, '-Adapter-Seaside';
+		                 install.
+]
+
+{ #category : #'project creation' }
+Polaris >> createEntity: anEntityName forProject: aProjectName [
+
+	(Object << anEntityName asSymbol)
+			slots: {  };
+		   package: aProjectName, '-Core';
+		   install.
+		
+	(Object << (anEntityName, 'Test') asSymbol)
+			slots: {  };
+		   package: aProjectName, '-Tests';
+		   install.
+		
+]
+
+{ #category : #'project creation' }
+Polaris >> createFeature: aFeatureTitle forProject: aProjectName [ 
+
+	^ (Object << aFeatureTitle asSymbol)
+			slots: {  };
+			package: aProjectName, '-AcceptanceCriteria';
+			install.
 ]
 
 { #category : #'project creation' }
@@ -104,8 +137,9 @@ Polaris >> newProjectNamed: projectNameString [
 	
 	baselineName := 'BaselineOf' , projectNameString.
 	
-	self createBaselineClassUsing: baselineName
-		  ForProject: projectNameString.
-		
+	self createBaselineClassUsing: baselineName forProject: projectNameString.
+	self createEntity: 'HelloWorld' forProject: projectNameString.
+	self createFeature: 'HelloWorldFeature' forProject: projectNameString.
+	self createBasicSeasideApplicationForProject: projectNameString.
 	self createMainClassForProject: projectNameString.
 ]

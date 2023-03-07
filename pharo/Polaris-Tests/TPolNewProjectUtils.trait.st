@@ -10,7 +10,13 @@ Trait {
 TPolNewProjectUtils >> createProjectForTestNamed: projectNameString [
 
 	self expectedPackageCreated: 'BaselineOf' , projectNameString.
+	self expectedPackageCreated: projectNameString , '-Core'.
+	self expectedPackageCreated: projectNameString , '-Adapter-Seaside'.
 	self expectedPackageCreated: projectNameString , '-Config'.
+	self expectedPackageCreated: projectNameString , '-Tests'.
+	self expectedPackageCreated: projectNameString , '-AcceptanceCriteria'.
+	
+	
 	Polaris newProjectNamed: projectNameString.
 ]
 
@@ -33,6 +39,6 @@ TPolNewProjectUtils >> initialize [
 TPolNewProjectUtils >> tearDown [ 
 
 	super tearDown.
-	packagesCreatedToClean do: [ :packageName | (RPackage organizer packageNamed: packageName) ifNotNil: #removeFromSystem ].
+	packagesCreatedToClean do: [ :packageName | RPackage organizer packageNamed: packageName ifPresent: #removeFromSystem ].
 	packagesCreatedToClean removeAll.
 ]

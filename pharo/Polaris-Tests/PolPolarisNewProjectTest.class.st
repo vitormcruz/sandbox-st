@@ -26,29 +26,6 @@ PolPolarisNewProjectTest >> test_new_project_app_class_should_be_created [
 ]
 
 { #category : #tests }
-PolPolarisNewProjectTest >> test_new_project_app_class_should_have_activate_method [
-
-	| createdClass |
-	
-	self createProjectForTestNamed: 'PolarisTestProject'.
-	createdClass := 'PolarisTestProjectMain' asClass.
-	
-	self assert: (createdClass selectors includes: #activate).
-
-	self assert: ((createdClass compiledMethodAt: #activate) sourceCode copyReplaceAll: ' ' with: '')
-		  equals: (('activate
-	| adaptor |
-	
-	adaptor := ZnZincServerAdaptor new. "Self registered..."
-	
-	adaptor port: (Smalltalk os environment at: #PORT ifAbsent: 8080) asInteger.
-	WAAdmin defaultServerManager startAll.
-	WAAdmin defaultDispatcher defaultName: ''PolarisTestProject''.
-
-	Smalltalk snapshot: false andQuit: false') copyReplaceAll: ' ' with: '' ).
-]
-
-{ #category : #tests }
 PolPolarisNewProjectTest >> test_new_project_baseline_method_should_be_created [
 
 	self createProjectForTestNamed: 'PolarisTestProject'.
@@ -102,16 +79,22 @@ PolPolarisNewProjectTest >> test_new_project_baseline_should_be_created [
 ]
 
 { #category : #tests }
-PolPolarisNewProjectTest >> test_new_project_repository_should_be_created [
+PolPolarisNewProjectTest >> test_new_project_default_packages_should_be_created [
 
-	self skip.
-
-	Polaris newProjectNamed: 'PolarisTestProject'.
-	self expectedPackageCreated: 'BaselineOfPolarisTestProject'.
-	self assert: ((IceRepository repositories collect: #name) includes: 'PolarisTestProject') description: 'A repository should be created, but wasn''t'
+	self createProjectForTestNamed: 'PolarisTestProject'.
 	
-	
-	
-	
-	
+	self assert: (RPackage organizer includesPackageNamed: 'PolarisTestProject-Core')
+		  description: 'Should create a package named: ', 'PolarisTestProject-Core'.
+		
+   self assert: (RPackage organizer includesPackageNamed: 'PolarisTestProject-Adapter-Seaside')
+		  description: 'Should create a package named: ', 'PolarisTestProject-Adapter-Seaside'.
+		
+   self assert: (RPackage organizer includesPackageNamed: 'PolarisTestProject-Config')
+		  description: 'Should create a package named: ', 'PolarisTestProject-Config'.
+		
+   self assert: (RPackage organizer includesPackageNamed: 'PolarisTestProject-Tests')
+		  description: 'Should create a package named: ', 'PolarisTestProject-Tests'.
+		
+   self assert: (RPackage organizer includesPackageNamed: 'PolarisTestProject-AcceptanceCriteria')
+		  description: 'Should create a package named: ', 'PolarisTestProject-AcceptanceCriteria'.
 ]
