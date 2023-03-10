@@ -1,6 +1,6 @@
 Extension { #name : #RPackageOrganizer }
 
-{ #category : #'*Polaris-Core' }
+{ #category : #'*Polaris-Tests' }
 RPackageOrganizer >> packageNamed: aSymbol  ifPresent: foundBlock [
 	^ packages 
 		at: aSymbol asSymbol 

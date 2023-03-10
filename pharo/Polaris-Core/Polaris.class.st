@@ -83,10 +83,14 @@ Polaris >> createBaselineClassUsing: baselineName forProject: projectNameString 
 { #category : #'project creation' }
 Polaris >> createBasicSeasideApplicationForProject: aProjectName [ 
 
-	 ^ (Object << (aProjectName, 'WebPage') asSymbol)
-		                 slots: {  };
-		                 package: aProjectName, '-Adapter-Seaside';
-		                 install.
+	| sourceOfClass sourceOfClassAltered |
+
+	sourceOfClass := String streamContents: [ :s | TemplateSeasideWebPage fileOutOn: s ].
+
+	sourceOfClassAltered := sourceOfClass copyReplacingAll:  #('TemplateSeasideWebPage' 	'Polaris-Core-NewCode-Template-Seaside' '''<projectTitle>''') 
+												    respectivelyBy: { aProjectName,'WebPage'. aProjectName, '-Adapter-Seaside'. aProjectName. }.
+
+	CodeImporter evaluateFileStream: sourceOfClassAltered readStream.
 ]
 
 { #category : #'project creation' }

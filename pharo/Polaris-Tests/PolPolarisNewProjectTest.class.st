@@ -98,3 +98,19 @@ PolPolarisNewProjectTest >> test_new_project_default_packages_should_be_created 
    self assert: (RPackage organizer includesPackageNamed: 'PolarisTestProject-AcceptanceCriteria')
 		  description: 'Should create a package named: ', 'PolarisTestProject-AcceptanceCriteria'.
 ]
+
+{ #category : #tests }
+PolPolarisNewProjectTest >> test_new_project_seaside_web_app_class_should_be_created [
+
+
+	self createProjectForTestNamed: 'PolarisTestProject'.
+	
+	self shouldnt: [ 'PolarisTestProjectWebPage' asClass ] raise: NotFound.
+	
+	self assert: 'PolarisTestProjectWebPage' asClass superclass equals: MDLApplication.
+	
+	self assert: ((RPackage organizer packageNamed: 'PolarisTestProject-Adapter-Seaside') definedClasses includes: #PolarisTestProjectWebPage asClass) 
+		  description: 'WebApp class should be created inside the correct package'.
+	
+	
+]
