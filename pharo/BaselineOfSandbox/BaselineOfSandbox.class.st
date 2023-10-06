@@ -12,13 +12,11 @@ BaselineOfSandbox >> baseline: spec [
 	spec for: #'common' do: [
 		spec blessing: #'baseline';
 			  repository: 'github://vitormcruz/sandbox-st/';
-			  baseline: 'LangExtensions' with: [ spec repository: 'github://vitormcruz/sandbox-st:develop'; 
-													 		     loads: #(tests) ];
 														
 			  baseline: 'DomainValidationMagritte' with: [ spec repository: 'github://vitormcruz/sandbox-st:develop'; 
 															             loads: #(tests) ];
 			  
-		     group: 'default' with: #('LangExtensions' 'DomainValidationMagritte').
+		     group: 'default' with: #('DomainValidationMagritte').
 	].
 
 
