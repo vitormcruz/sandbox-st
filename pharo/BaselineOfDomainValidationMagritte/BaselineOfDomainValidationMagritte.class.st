@@ -12,9 +12,6 @@ BaselineOfDomainValidationMagritte >> baseline: spec [
 	spec for: #'common' do: [
 		spec blessing: #'baseline';
 		     repository: 'github://vitormcruz/sandbox-st';
-		
-		     baseline: 'LangExtensions' with: [ spec repository: 'github://vitormcruz/sandbox-st:develop'; 
-															     loads: #(core) ];
 														
 		     baseline: 'Tome' with: [ spec repository: 'github://vitormcruz/tome:develop'; 
 													 loads: #(core) ];
@@ -30,9 +27,9 @@ BaselineOfDomainValidationMagritte >> baseline: spec [
 			  package: 'Magritte-Extensions-Core' with: [ spec repository: 'github://vitormcruz/sandbox-st:develop' ];
 			  package: 'Magritte-Extensions-Tests' with: [ spec repository: 'github://vitormcruz/sandbox-st:develop'];										
 		
-			  package: 'DomainValidationMagritte-Core' with: [ spec requires: #('LangExtensions' 'Magritte' 'ValidationNotification') ];
+			  package: 'DomainValidationMagritte-Core' with: [ spec requires: #('Magritte' 'ValidationNotification') ];
 			  package: 'DomainValidationMagritte-Tests' with: [ spec requires: #('DomainValidationMagritte-Core' 'Tome' 'Mocketry') ];
-		     package: 'DomainValidationMagritte-Features' with: [ spec requires: #('LangExtensions' 'DomainValidationMagritte-Core') ];
+		     package: 'DomainValidationMagritte-Features' with: [ spec requires: #('DomainValidationMagritte-Core') ];
 		
  			  group: 'default' with: #('core' 'tests');
 			  group: 'core' with: #('DomainValidationMagritte-Core' 'Magritte-Extensions-Core');
